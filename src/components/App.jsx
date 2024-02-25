@@ -14,7 +14,8 @@ const initialContacts = [
 const App = () => {
   const [contacts, setContacts] = useState(() => {
     const storedContacts = localStorage.getItem('contacts');
-    return storedContacts ? JSON.parse(storedContacts) : initialContacts;
+    const parsedContacts = storedContacts ? JSON.parse(storedContacts) : [];
+    return [...initialContacts, ...parsedContacts];
   });
 
   useEffect(() => {
@@ -49,15 +50,16 @@ const App = () => {
     );
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
   return (
     <>
       <h1>Phonebook</h1>
       <ContactForm onSubmit={addContact} />
       <h2>Contacts</h2>
-      <ContactList
-        contacts={[...initialContacts, ...contacts]}
-        onDeleteContact={deleteContact}
-      />
+      <ContactList contacts={contacts} onDeleteContact={deleteContact} />
     </>
   );
 };
