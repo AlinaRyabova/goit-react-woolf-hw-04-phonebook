@@ -12,10 +12,19 @@ const initialContacts = [
 ];
 
 const App = () => {
+  // const [contacts, setContacts] = useState(() => {
+  //   const storedContacts = localStorage.getItem('contacts');
+  //   const parsedContacts = storedContacts ? JSON.parse(storedContacts) : [];
+  //   return [...initialContacts, ...parsedContacts];
+  // });
   const [contacts, setContacts] = useState(() => {
     const storedContacts = localStorage.getItem('contacts');
     const parsedContacts = storedContacts ? JSON.parse(storedContacts) : [];
-    return [...initialContacts, ...parsedContacts];
+    const allContacts = [...initialContacts, ...parsedContacts];
+    return allContacts.filter(
+      (contact, index, self) =>
+        index === self.findIndex(t => t.id === contact.id)
+    );
   });
 
   useEffect(() => {
@@ -49,10 +58,6 @@ const App = () => {
       prevContacts.filter(contact => contact.id !== contactId)
     );
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   return (
     <>
