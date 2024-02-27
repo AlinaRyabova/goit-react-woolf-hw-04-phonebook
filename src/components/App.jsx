@@ -14,13 +14,13 @@ const initialState = [
 
 const App = () => {
   const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('contacts')) || initialState;
+    return JSON.parse(localStorage.getItem('contacts')) || initialState;
   });
 
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const addContact = (name, number) => {
